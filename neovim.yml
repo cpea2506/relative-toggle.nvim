@@ -1,0 +1,22 @@
+---
+base: lua53
+globals:
+  vim:
+    any: true
+  assert.equal:
+    args:
+      - type: any
+      - type: ...
+        required: false
+  assert.are.same:
+    args:
+      - type: any
+      - type: any
+  describe:
+    args:
+      - type: string
+      - type: function
+  it:
+    args:
+      - type: string
+      - type: function

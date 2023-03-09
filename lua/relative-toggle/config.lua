@@ -20,6 +20,28 @@ config.options = {
     },
 }
 
+---whether an event that was defined from user is valid or not
+local function is_valid_event(event)
+    if not (event.on and event.off) then
+        logs.error.notify "config(events): event table must contain two keys 'on' and 'off' only"
+
+        return false
+    end
+
+    local types_ok, err = pcall(vim.validate, {
+        on = { event.on, "string" },
+        off = { event.off, "string" },
+    })
+
+    if not types_ok then
+        logs.error.notify(err)
+
+        return false
+    end
+
+    return true
+end
+
 ---Extend default with user config
 ---@param user_config table #user's defined config
 function config:extend(user_config)
@@ -27,22 +49,13 @@ function config:extend(user_config)
         return
     end
 
-    for _, event in ipairs(user_config.events) do
-        if not event.on or not event.off then
-            logs.error.notify "config(events): event table must contain two keys 'on' and 'off' only"
+    local events = user_config.events
 
-            return
-        end
-
-        local type_ok, err = pcall(vim.validate, {
-            on = { event.on, "string" },
-            off = { event.off, "string" },
-        })
-
-        if not type_ok then
-            logs.error.notify(err)
-
-            return
+    if events then
+        for _, event in ipairs(events) do
+            if not is_valid_event(event) then
+                return
+            end
         end
     end
 

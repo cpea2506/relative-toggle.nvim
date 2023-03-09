@@ -25,8 +25,6 @@ local function set_relativenumber(relative)
 end
 
 function M.setup(user_config)
-    vim.opt.relativenumber = config.default_relative
-
     -- load user config
     config:extend(user_config)
 

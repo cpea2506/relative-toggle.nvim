@@ -3,8 +3,6 @@ local logs = require "relative-toggle.logs"
 local config = {}
 
 config.options = {
-    ---set relative number by default
-    default_relative = true,
     ---@type string|table #pattern(s) where toggle should be enable, see: [autocmd-pattern]
     pattern = "*",
     ---@type table<string, string>[] #event to toggle between relative and absolute line numbers, each `event` receive only two keys:

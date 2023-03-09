@@ -5,10 +5,10 @@ describe("Override config", function()
 
     it("should change default config", function()
         local expected = {
-            default_relative = false,
             pattern = "*.toml",
             events = {
-                { on = "BufWinEnter", off = "BufWinLeave" },
+                on = "BufWinEnter",
+                off = "BufWinLeave",
             },
         }
 
@@ -20,13 +20,15 @@ describe("Override config", function()
     it("should log error with wrong key", function()
         local wrong_config = {
             events = {
-                { on = "BufEnter", lmao = "BufLeave", off = false },
+                on = "BufEnter",
+                lmao = "BufLeave",
+                off = false,
             },
         }
 
         relative_toggle.setup(wrong_config)
 
-        assert.equal("config(events): event table must contain two keys 'on' and 'off' only", logs.error.msg)
+        assert.equal("config: events must contain two keys 'on' and 'off'", logs.error.msg)
 
         vim.schedule(function()
             assert.equal(true, logs.error.msg_displayed)
@@ -36,13 +38,14 @@ describe("Override config", function()
     it("should log error with wrong type", function()
         local wrong_config = {
             events = {
-                { on = "BufEnter", off = true },
+                on = "BufEnter",
+                off = true,
             },
         }
 
         relative_toggle.setup(wrong_config)
 
-        assert.equal("off: expected string, got boolean", logs.error.msg)
+        assert.equal("off: expected table|string, got boolean", logs.error.msg)
 
         vim.schedule(function()
             assert.equal(true, logs.error.msg_displayed)

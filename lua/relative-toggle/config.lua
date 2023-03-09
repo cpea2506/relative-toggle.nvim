@@ -5,40 +5,15 @@ local config = {}
 config.options = {
     ---@type string|table #pattern(s) where toggle should be enable, see: [autocmd-pattern]
     pattern = "*",
-    ---@type table<string, string>[] #event to toggle between relative and absolute line numbers, each `event` receive only two keys:
+    ---@type table<string, string | string[] > #event(s) to toggle between relative and absolute line numbers.
     ---• `on`: event to turn relative number on
     ---• `off`: event to turn relative number off
     ---see: [autocmd-events]
     events = {
-        { on = "BufEnter", off = "BufLeave" },
-        { on = "FocusGained", off = "FocusLost" },
-        { on = "InsertLeave", off = "InsertEnter" },
-        { on = "WinEnter", off = "WinLeave" },
-        { on = "CmdLineLeave", off = "CmdLineEnter" },
+        on = { "BufEnter", "FocusGained", "InsertLeave", "WinEnter", "CmdLineLeave" },
+        off = { "BufLeave", "FocusLost", "InsertEnter", "WinLeave", "CmdLineEnter" },
     },
 }
-
----whether an event that was defined from user is valid or not
-local function is_valid_event(event)
-    if not (event.on and event.off) then
-        logs.error.notify "config(events): event table must contain two keys 'on' and 'off' only"
-
-        return false
-    end
-
-    local types_ok, err = pcall(vim.validate, {
-        on = { event.on, "string" },
-        off = { event.off, "string" },
-    })
-
-    if not types_ok then
-        logs.error.notify(err)
-
-        return false
-    end
-
-    return true
-end
 
 ---Extend default with user config
 ---@param user_config table #user's defined config
@@ -50,10 +25,21 @@ function config:extend(user_config)
     local events = user_config.events
 
     if events then
-        for _, event in ipairs(events) do
-            if not is_valid_event(event) then
-                return
-            end
+        if not (events.on and events.off) then
+            logs.error.notify "config: events must contain two keys 'on' and 'off'"
+
+            return
+        end
+
+        local types_ok, err = pcall(vim.validate, {
+            on = { events.on, { "table", "string" } },
+            off = { events.off, { "table", "string" } },
+        })
+
+        if not types_ok then
+            logs.error.notify(err)
+
+            return
         end
     end
 

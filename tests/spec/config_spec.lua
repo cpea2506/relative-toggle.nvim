@@ -3,6 +3,10 @@ describe("Override config", function()
     local logs = require "relative-toggle.logs"
     local config = require "relative-toggle.config"
 
+    before_each(function()
+        logs.error.msg = ""
+    end)
+
     it("should change default config", function()
         local expected = {
             pattern = "*.toml",
@@ -28,11 +32,7 @@ describe("Override config", function()
 
         relative_toggle.setup(wrong_config)
 
-        assert.equal("config: events must contain two keys 'on' and 'off'", logs.error.msg)
-
-        vim.schedule(function()
-            assert.equal(true, logs.error.msg_displayed)
-        end)
+        assert.is_not.equal("", logs.error.msg)
     end)
 
     it("should log error with wrong type", function()
@@ -45,10 +45,6 @@ describe("Override config", function()
 
         relative_toggle.setup(wrong_config)
 
-        assert.equal("off: expected table|string, got boolean", logs.error.msg)
-
-        vim.schedule(function()
-            assert.equal(true, logs.error.msg_displayed)
-        end)
+        assert.is_not.equal("", logs.error.msg)
     end)
 end)

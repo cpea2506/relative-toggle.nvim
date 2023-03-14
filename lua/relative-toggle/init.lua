@@ -2,13 +2,12 @@ local M = {}
 
 local config = require "relative-toggle.config"
 local logs = require "relative-toggle.logs"
-local api = vim.api
 
 ---creates an autocommand event handler.
 ---@param event object
 ---@param opts? table<string, any>
 local function create_autocmd(event, opts)
-    local event_ok, error = pcall(api.nvim_create_autocmd, event, opts)
+    local event_ok, error = pcall(vim.api.nvim_create_autocmd, event, opts)
 
     if not event_ok then
         logs.error.notify(error)
@@ -29,7 +28,7 @@ function M.setup(user_config)
     config:extend(user_config)
 
     local events = config.events
-    local augroup = api.nvim_create_augroup("relative-toggle", {})
+    local augroup = vim.api.nvim_create_augroup("relative-toggle", {})
 
     create_autocmd(events.on, {
         pattern = config.pattern,

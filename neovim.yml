@@ -7,7 +7,13 @@ globals:
     args:
       - type: any
       - type: ...
-        required: false
+  assert.is_not.equal:
+    args:
+      - type: any
+      - type: ...
+  before_each:
+    args:
+      - type: function
   assert.are.same:
     args:
       - type: any

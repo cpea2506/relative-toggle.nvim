@@ -10,8 +10,8 @@ config.options = {
     ---• `off`: event to turn relative number off
     ---see: [autocmd-events]
     events = {
-        on = { "BufEnter", "FocusGained", "InsertLeave", "WinEnter", "CmdLineLeave" },
-        off = { "BufLeave", "FocusLost", "InsertEnter", "WinLeave", "CmdLineEnter" },
+        on = { "BufEnter", "FocusGained", "InsertLeave", "WinEnter", "CmdlineLeave" },
+        off = { "BufLeave", "FocusLost", "InsertEnter", "WinLeave", "CmdlineEnter" },
     },
 }
 

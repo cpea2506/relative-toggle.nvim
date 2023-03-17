@@ -15,11 +15,16 @@ local function create_autocmd(event, opts)
 end
 
 ---@param relative boolean #whether relativenumber should be set
-local function set_relativenumber(relative)
+---@param redraw boolean #whether to redraw the screen
+local function set_relativenumber(relative, redraw)
     local in_insert_mode = vim.api.nvim_get_mode().mode == "i"
 
     if vim.o.number then
         vim.opt.relativenumber = relative and not in_insert_mode
+
+        if redraw then
+            vim.cmd "redraw"
+        end
     end
 end
 
@@ -34,8 +39,8 @@ function M.setup(user_config)
         pattern = config.pattern,
         group = augroup,
         desc = "turn relative number on",
-        callback = function()
-            set_relativenumber(true)
+        callback = function(ev)
+            set_relativenumber(true, ev.event == "CmdlineEnter")
         end,
     })
 
@@ -43,8 +48,8 @@ function M.setup(user_config)
         pattern = config.pattern,
         group = augroup,
         desc = "turn relative number off",
-        callback = function()
-            set_relativenumber(false)
+        callback = function(ev)
+            set_relativenumber(false, ev.event == "CmdlineEnter")
         end,
     })
 end

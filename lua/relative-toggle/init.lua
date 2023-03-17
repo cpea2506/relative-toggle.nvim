@@ -21,8 +21,9 @@ local function set_relativenumber(relative, redraw)
 
     if vim.o.number then
         vim.opt.relativenumber = relative and not in_insert_mode
+
         if redraw then
-            vim.cmd("redraw")
+            vim.cmd "redraw"
         end
     end
 end

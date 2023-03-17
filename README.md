@@ -32,8 +32,8 @@ After installed, this plugin will automatically active so no setup statement is 
 require("relative-toggle").setup ({
     pattern = "*",
     events = {
-        on = { "BufEnter", "FocusGained", "InsertLeave", "WinEnter", "CmdLineLeave" },
-        off = { "BufLeave", "FocusLost", "InsertEnter", "WinLeave", "CmdLineEnter" },
+        on = { "BufEnter", "FocusGained", "InsertLeave", "WinEnter", "CmdlineLeave" },
+        off = { "BufLeave", "FocusLost", "InsertEnter", "WinLeave", "CmdlineEnter" },
     },
 })
 ```

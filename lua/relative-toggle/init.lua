@@ -14,17 +14,19 @@ local function create_autocmd(event, opts)
     end
 end
 
+-- to keep the combination of relativenumber and number
+local current_number = vim.o.number
+
 ---@param relative boolean #whether relativenumber should be set
 ---@param redraw boolean #whether to redraw the screen
 local function set_relativenumber(relative, redraw)
     local in_insert_mode = vim.api.nvim_get_mode().mode == "i"
 
-    if vim.o.number then
-        vim.opt.relativenumber = relative and not in_insert_mode
+    vim.opt.number = not relative or current_number
+    vim.opt.relativenumber = relative and not in_insert_mode
 
-        if redraw then
-            vim.cmd "redraw"
-        end
+    if redraw then
+        vim.cmd "redraw"
     end
 end
 

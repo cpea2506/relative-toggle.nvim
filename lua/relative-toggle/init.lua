@@ -20,7 +20,7 @@ local current_number = vim.o.number
 ---@param relative boolean #whether relativenumber should be set
 ---@param redraw boolean #whether to redraw the screen
 local function set_relativenumber(relative, redraw)
-    -- ignore for buffer with these off by default
+    -- ignore for buffer or window with these off by default
     if not vim.o.number and not vim.o.relativenumber then
         return
     end

@@ -1,24 +1,30 @@
-local M = {}
+---@class logs
+local logs = {}
 
-M.error = {
-    msg = "",
-    msg_displayed = false,
-    ---Display error message.
-    --
-    ---NOTE: This function receives params that will be passed to `string.format`.
-    ---@param s any
-    ---@param ... any
-    notify = function(s, ...)
-        local message = string.format(s, ...)
+---Display a notification to the user
+---@param level vim.log.levels
+---@param s string|number
+---@param ... any
+local function notify(level, s, ...)
+    local message = string.format(s, ...)
 
-        M.error.msg = message
+    vim.notify(message, level, {
+        title = "Relative Toggle",
+    })
+end
 
-        vim.schedule(function()
-            M.error.msg_displayed = vim.notify_once(message, vim.log.levels.ERROR, {
-                title = "Relative Toggle",
-            })
-        end)
-    end,
-}
+---Display an error message to the user
+---@param s string|number
+---@param ... any
+logs.error = function(s, ...)
+    notify(vim.log.levels.ERROR, s, ...)
+end
 
-return M
+---Display a warning message to the user
+---@param s string|number
+---@param ... any
+logs.warning = function(s, ...)
+    notify(vim.log.levels.WARN, s, ...)
+end
+
+return logs

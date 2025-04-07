@@ -26,7 +26,7 @@ function config:extend(user_config)
 
     if events then
         if not (events.on and events.off) then
-            logs.error.notify "config: events must contain two keys 'on' and 'off'"
+            logs.error "config: events must contain two keys 'on' and 'off'"
 
             return
         end
@@ -37,7 +37,7 @@ function config:extend(user_config)
         })
 
         if not types_ok then
-            logs.error.notify(err)
+            logs.error(err)
 
             return
         end

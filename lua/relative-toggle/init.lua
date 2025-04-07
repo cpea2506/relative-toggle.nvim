@@ -10,7 +10,7 @@ local function create_autocmd(event, opts)
     local event_ok, error = pcall(vim.api.nvim_create_autocmd, event, opts)
 
     if not event_ok then
-        logs.error.notify(error)
+        logs.error(error)
     end
 end
 

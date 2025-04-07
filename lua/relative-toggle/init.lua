@@ -20,7 +20,7 @@ local function set_relativenumber(relative, number, redraw)
     end
 end
 
-function M.setup(user_config)
+function M.setup(opts)
     local config = require "relative-toggle.config"
     local augroup = vim.api.nvim_create_augroup("relative-toggle", { clear = true })
 
@@ -29,7 +29,7 @@ function M.setup(user_config)
     -- To keep the combination of number and relativenumber
     local current_number = vim.o.number
 
-    config:extend(user_config)
+    config.extend(opts)
 
     vim.api.nvim_create_autocmd(config.events.on, {
         pattern = config.pattern,

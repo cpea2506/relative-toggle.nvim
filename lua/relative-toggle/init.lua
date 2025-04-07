@@ -1,12 +1,10 @@
 local M = {}
 
--- To keep the combination of number and relativenumber
-local current_number = vim.o.number
-
 ---Set relative number
 ---@param relative boolean #Whether relative number should be set
+---@param number boolean #Whether number should be set
 ---@param redraw boolean #Whether to redraw the screen
-local function set_relativenumber(relative, redraw)
+local function set_relativenumber(relative, number, redraw)
     -- Ignore for buffer or window with number and relative number off by default
     if not vim.o.number and not vim.o.relativenumber then
         return
@@ -14,7 +12,7 @@ local function set_relativenumber(relative, redraw)
 
     local in_insert_mode = vim.api.nvim_get_mode().mode == "i"
 
-    vim.opt.number = not relative or in_insert_mode or current_number
+    vim.opt.number = not relative or in_insert_mode or number
     vim.opt.relativenumber = relative and not in_insert_mode
 
     if redraw then
@@ -28,6 +26,9 @@ function M.setup(user_config)
 
     vim.opt.relativenumber = true
 
+    -- To keep the combination of number and relativenumber
+    local current_number = vim.o.number
+
     config:extend(user_config)
 
     vim.api.nvim_create_autocmd(config.events.on, {
@@ -35,7 +36,7 @@ function M.setup(user_config)
         group = augroup,
         desc = "Turn relative number on",
         callback = function(args)
-            set_relativenumber(true, args.event == "CmdlineEnter")
+            set_relativenumber(true, current_number, args.event == "CmdlineEnter")
         end,
     })
 
@@ -44,7 +45,7 @@ function M.setup(user_config)
         group = augroup,
         desc = "Turn relative number off",
         callback = function(args)
-            set_relativenumber(false, args.event == "CmdlineEnter")
+            set_relativenumber(false, current_number, args.event == "CmdlineEnter")
         end,
     })
 end

@@ -38,10 +38,29 @@ describe("Override config", function()
             end, { predicate = true })
         end
 
-        local autocmds = vim.api.nvim_get_autocmds { group = "relative-toggle" }
+        local groupid = vim.api.nvim_create_augroup("relative-toggle", { clear = false })
+        local autocmds = vim.api.nvim_get_autocmds { group = groupid }
 
         assert.is_true(tbl_contains(autocmds, { pattern = "*.toml", event = "BufWinEnter" }))
         assert.is_true(tbl_contains(autocmds, { pattern = "*.toml", event = "BufWinLeave" }))
         assert.is_false(tbl_contains(autocmds, { pattern = "*.toml", event = "InsertEnter" }))
+    end)
+
+    it("should change default relativenumber", function()
+        local groupid = vim.api.nvim_create_augroup("relative-toggle", { clear = false })
+
+        vim.api.nvim_exec_autocmds(config.events.on, {
+            group = groupid,
+            pattern = config.pattern,
+        })
+
+        assert.is_true(vim.o.relativenumber)
+
+        vim.api.nvim_exec_autocmds(config.events.off, {
+            group = groupid,
+            pattern = config.pattern,
+        })
+
+        assert.is_false(vim.o.relativenumber)
     end)
 end)

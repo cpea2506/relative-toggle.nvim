@@ -12,7 +12,7 @@ use "cpea2506/relative-toggle.nvim"
 
 ### Requirements
 
-- Neovim >= 0.7.2
+- Neovim >= 0.8.0
 
 ## ⚙️ Setup
 

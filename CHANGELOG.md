@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/cpea2506/relative-toggle.nvim/compare/v1.0.0...v1.0.1) (2025-04-07)
+
+
+### Bug Fixes
+
+* options cannot be set by user ([#14](https://github.com/cpea2506/relative-toggle.nvim/issues/14)) ([d1aef62](https://github.com/cpea2506/relative-toggle.nvim/commit/d1aef62497a878fda6fe531891902899fd7425fa))
+
 ## 1.0.0 (2023-03-19)
 
 
